@@ -19,10 +19,13 @@ namespace nc
 
     void World01::Update(float dt)
     {
+        m_scale += dt;
         m_position.x += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_A) ? -dt : 0;
         m_position.x += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_D) ? dt : 0;
-        m_angle += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_W) ? dt * 90 : 0;
-        m_angle -= ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_S) ? dt * 90 : 0;
+        m_position.y += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_W) ? dt : 0;
+        m_position.y += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_S) ? -dt : 0;
+        m_angle += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_RIGHT) ? -dt * 90 : 0;
+        m_angle += ENGINE.GetSystem<InputSystem>()->GetKeyDown(SDL_SCANCODE_LEFT) ? dt * 90 : 0;
         m_time += dt;
     }
 
@@ -32,7 +35,7 @@ namespace nc
         renderer.BeginFrame();
         glPushMatrix();
         glTranslatef(m_position.x, m_position.y, 0);
-        glScalef((sin(m_scale)+ 1) *0.5f, (sin(m_scale) + 1) * 0.5f, 1);
+        glScalef(((sin(m_scale) + 2.0f) * 0.1f), ((sin(m_scale) + 2.0f) * 0.1f), 1);
         glRotatef(m_angle, 0, 0, 1);
 
         glBegin(GL_POLYGON);
